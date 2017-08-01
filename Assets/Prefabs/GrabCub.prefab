@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 65917205048245428}
   - component: {fileID: 23913336105700106}
   m_Layer: 0
-  m_Name: Paredes
+  m_Name: GrabCub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,7 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: b09122c3233f07c469ade695c14e14c8, type: 2}
+  - {fileID: 2100000, guid: f5c90049516878f4a9e4075cd5bd8719, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
