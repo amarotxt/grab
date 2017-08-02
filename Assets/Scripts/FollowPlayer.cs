@@ -18,7 +18,6 @@ public class FollowPlayer : MonoBehaviour{
 		positionPlay = new Vector3(player.transform.position.x,player.transform.position.y,player.transform.position.z);
 		positionFollow = new Vector3 (positionPlay.x, positionPlay.y,positionFollow.z+player.gameObject.GetComponent<Player> ().speedZ);
 		gameObject.transform.position = positionFollow;
-//		gameObject.transform.Translate (new Vector3 (0, 0, player.gameObject.GetComponent<Player> ().speedZ));
 	}
 
 
