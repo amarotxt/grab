@@ -43,6 +43,9 @@ public class Gancho : MonoBehaviour {
 		} else {
 			RecolherGancho ();
 		}
+
+		GetComponent<LineRenderer> ().SetPosition (0, player.transform.position);
+		GetComponent<LineRenderer> ().SetPosition (1, transform.position);
 	}
 
 	void OnTriggerEnter(Collider coll){
