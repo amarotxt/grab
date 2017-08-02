@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class Command {
 	protected float movimentSpeed = 5;
-	protected float movimentScaleSpeed = 2;
-	protected float forceJump = 10f;
-	protected float forceHighJump = 15f;
+	protected float movimentScaleSpeed = 3.5f;
+	protected float forceJump = 20f;
+	protected float forceHighJump = 30f;
 
 
 	public abstract void Execute (GameObject player);
@@ -68,8 +68,6 @@ public class JumpUp : Command{
 		Jump (player.GetComponent<Rigidbody>());
 	}
 	public override void Jump (Rigidbody player){
-		Debug.Log ("Teste1");
-
 		player.AddForce ((Vector3.up*forceJump),ForceMode.Impulse);
 	}
 }
@@ -79,7 +77,6 @@ public class JumpUpHigh : Command{
 		Jump (player.GetComponent<Rigidbody>());
 	}
 	public override void Jump (Rigidbody player){
-		Debug.Log ("Teste");
 		player.AddForce ((Vector3.up*forceHighJump), ForceMode.Impulse);
 	}
 }

@@ -6,17 +6,19 @@ public class Player : MonoBehaviour {
 	
 	public float speedZ;
 	public float aceleration;
+	public LayerMask groundLayers;
+		
 	GameObject player;
 	Command MoveRight, MoveLeft, MoveUp, MoveDown, JumpLeft, JumpRight, JumpUp, JumpUpHigh;
-	bool inGround, highJump, scale, jumpPress;
-
+	private bool highJump, scale, jumpPress;
+	private BoxCollider box;
 	void Start () {
 		speedZ = 0.1f;
 		aceleration = 1;
-		inGround = false;
 		scale = false;
 		highJump = false;
 		player = GameObject.Find ("Player");
+		box = player.gameObject.GetComponent<BoxCollider> ();
 		InvokeRepeating ("IncreaseSpeed",0.5f, 5.0f);
 		MoveRight = new MoveRight ();
 		MoveLeft = new MoveLeft ();
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+
 		if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) && !scale) {
 			MoveLeft.Execute (player);
 			}
@@ -36,15 +39,15 @@ public class Player : MonoBehaviour {
 			MoveRight.Execute (player);
 		}
 			
-		if ((Input.GetKey (KeyCode.UpArrow) ||Input.GetKey(KeyCode.W)) ) {
+		if ((Input.GetKey (KeyCode.UpArrow) ||Input.GetKey(KeyCode.W)) && scale ) {
 			MoveUp.Execute (player);
 		}
 
-		if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S)) {
+		if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && scale) {
 			MoveDown.Execute (player);
 		}
 
-		if (Input.GetKeyDown (KeyCode.Space) && inGround && !jumpPress) {
+		if (Input.GetKeyDown (KeyCode.Space) && IsGrounded() && !jumpPress) {
 			jumpPress = true;
 			if (highJump) {
 				JumpUpHigh.Execute (player);
@@ -64,18 +67,8 @@ public class Player : MonoBehaviour {
 			CancelInvoke();
 		}	
 	}
-	void IncreaseSpeed(){
-		speedZ += (Time.deltaTime * aceleration);
-	}
+
 	void OnCollisionEnter (Collision collider){
-////////////////////////////////////////////////////////	
-//		apagar depois
-		if (collider.gameObject.CompareTag ("wall")) {
-			inGround = false;
-		} else {
-			inGround = true;
-		}
-////////////////////////////////////////////////////////
 	
 		if (collider.gameObject.CompareTag ("scaleCub")) {
 			deactvateGravity ();
@@ -88,7 +81,7 @@ public class Player : MonoBehaviour {
 
 	}
 	void OnCollisionExit (Collision collider){
-		inGround = false;
+		
 		if (collider.gameObject.CompareTag ("scaleCub")) {
 			actvateGravity ();
 			scale = false;
@@ -100,6 +93,14 @@ public class Player : MonoBehaviour {
 	}
 	void actvateGravity(){
 		player.GetComponent<Rigidbody> ().useGravity = true; 
+	}
+	void IncreaseSpeed(){
+
+		speedZ += (Time.deltaTime * aceleration);
+	}
+	private bool IsGrounded()
+	{
+		return Physics.CheckBox(box.bounds.center,new Vector3(box.bounds.extents.x-0.3f, box.bounds.extents.y, box.bounds.extents.z-0.3f) , Quaternion.identity, groundLayers);
 	}
 
 }
