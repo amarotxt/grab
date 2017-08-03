@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a85d2b0feb0fe0446a0947ac44bc3fad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velLancar: 300
+  velLancar: 400
   retornarGancho: 400
   tamanhoCorda: 90
   forcaCorda: 10
