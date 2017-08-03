@@ -17,7 +17,7 @@ public class Invoke : MonoBehaviour {
 
 		if (randomCub >= 11 && randomCub <= 40){
 			cub = Instantiate (grabCub, new Vector3(this.transform.position.x+Random.Range(-14,14),this.transform.position.y+Random.Range(-10,10),this.transform.position.z),Quaternion.identity);
-			cub.transform.localScale = new Vector3 (Random.Range(1f,10f),Random.Range(0.1f,15),Random.Range(5,30));
+			cub.transform.localScale = new Vector3 (Random.Range(2f,10f),Random.Range(2f,15),Random.Range(5,30));
 
 		}
 		if (randomCub >= 41 && randomCub <= 60){
@@ -32,7 +32,7 @@ public class Invoke : MonoBehaviour {
 		}
 		if (randomCub >= 81){
 			cub = Instantiate (scaleCub, new Vector3(this.transform.position.x+Random.Range(-14,14),this.transform.position.y+Random.Range(-10,0),this.transform.position.z),Quaternion.identity);
-			cub.transform.localScale = new Vector3 (Random.Range(0.1f,3f),Random.Range(2f,15f),Random.Range(5,30));
+			cub.transform.localScale = new Vector3 (Random.Range(1f,3f),Random.Range(2f,15f),Random.Range(5,50));
 
 		}
 

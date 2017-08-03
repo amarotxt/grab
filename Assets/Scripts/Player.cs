@@ -83,8 +83,8 @@ public class Player : MonoBehaviour {
 			CancelInvoke();
 		}	
 
-		if(player.GetComponent<Rigidbody>().velocity.z > 30){
-			player.GetComponent<Rigidbody> ().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x,GetComponent<Rigidbody>().velocity.y,30);
+		if(player.GetComponent<Rigidbody>().velocity.z > 25){
+			player.GetComponent<Rigidbody> ().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x,GetComponent<Rigidbody>().velocity.y,25);
 		
 		} 
 	}
@@ -124,7 +124,8 @@ public class Player : MonoBehaviour {
 	}
 	private bool IsGrounded()
 	{
-		return Physics.CheckBox(box.bounds.center,new Vector3(box.bounds.extents.x-0.3f, box.bounds.extents.y, box.bounds.extents.z-0.3f) , Quaternion.identity, groundLayers);
+		RaycastHit ray;
+		return Physics.Raycast(transform.position,-transform.up,out ray, 1.4f);
 	}
 
 }
