@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
@@ -11,12 +11,15 @@ public class Player : MonoBehaviour {
 	public float forcabalanco;
 	public LayerMask groundLayers;
 	public Camera m_camera;
+	public Text distance;
 
 	GameObject player;
 	Command MoveRight, MoveLeft, MoveUp, MoveDown, JumpLeft, JumpRight, JumpUp, JumpUpHigh;
 	private bool highJump, scale, jumpPress, pendurado;
 	private BoxCollider box;
+
 	void Start () {
+		
 		speedZ =0.1f;
 		aceleration = 1;
 		scale = false;
@@ -35,24 +38,30 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		distance.text = player.transform.position.z.ToString("0.00"); 
 		if (m_camera.gameObject.transform.position.z > transform.position.z) {
+			PlayerPrefs.SetFloat ("distanciaPartida", transform.position.z);
+			if (PlayerPrefs.GetFloat ("distanciaPartida") >= PlayerPrefs.GetFloat ("recorde")) {
+				PlayerPrefs.SetFloat ("recorde", player.transform.position.z);
+			}
 			SceneManager.LoadScene (0);
+
 		}
 
 		pendurado = Gancho.cordaColidiu;
 		if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
 			MoveLeft.Execute (player);
-			}
+		}
 		else if(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) && !IsGrounded() && pendurado){
 			player.GetComponent<Rigidbody> ().AddRelativeForce(forcabalanco*transform.right*-1);
-			}
+		}
 
 		if (Input.GetKey (KeyCode.RightArrow) ||Input.GetKey(KeyCode.D) ) {
 			MoveRight.Execute (player);
 		}else if(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) && !IsGrounded() && pendurado){
 			player.GetComponent<Rigidbody> ().AddRelativeForce(forcabalanco*transform.right*1);
 		}
-			
+
 		if ((Input.GetKey (KeyCode.UpArrow) ||Input.GetKey(KeyCode.W)) && scale ) {
 			MoveUp.Execute (player);
 		}
@@ -67,7 +76,7 @@ public class Player : MonoBehaviour {
 				JumpUpHigh.Execute (player);
 				highJump = false;
 			} else {
-				
+
 				JumpUp.Execute (player);
 			}
 
@@ -85,9 +94,10 @@ public class Player : MonoBehaviour {
 
 		if(player.GetComponent<Rigidbody>().velocity.z > 25){
 			player.GetComponent<Rigidbody> ().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x,GetComponent<Rigidbody>().velocity.y,25);
-		
+
 		} 
 	}
+
 
 	void OnCollisionEnter (Collision collider){
 	
@@ -100,6 +110,10 @@ public class Player : MonoBehaviour {
 			highJump = true;
 		}
 		if (collider.gameObject.CompareTag ("Finish")) {
+			PlayerPrefs.SetFloat ("distanciaPartida", player.transform.position.z);
+			if (PlayerPrefs.GetFloat ("distanciaPartida") >= PlayerPrefs.GetFloat ("recorde")) {
+				PlayerPrefs.SetFloat ("recorde", player.transform.position.z);
+			}
 			SceneManager.LoadScene (0);
 		}
 

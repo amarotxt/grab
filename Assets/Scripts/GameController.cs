@@ -1,18 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
-	GameObject player;
-	public Text distance;
+	
+	public GameObject PainelMenu;
+	public GameObject PainelTutorial;
+	public Text distanciaPartida, recorde;
+
 	// Use this for initialization
 	void Start () {
-		player = GameObject.FindGameObjectWithTag ("Player");
+		distanciaPartida.text = PlayerPrefs.GetFloat ("distanciaPartida").ToString("0.00");
+		recorde.text = PlayerPrefs.GetFloat ("recorde").ToString("0.00");
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		distance.text = player.transform.position.z.ToString("0.00"); 
+		
+	}
+	public void IniciarJogo(){
+		SceneManager.LoadScene (1);
+
 	}
 }
