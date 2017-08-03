@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+
 public class Player : MonoBehaviour {
-	
+
 	public float speedZ;
 	public float aceleration;
+	public float forcabalanco;
 	public LayerMask groundLayers;
-		
+	public Camera m_camera;
+
 	GameObject player;
 	Command MoveRight, MoveLeft, MoveUp, MoveDown, JumpLeft, JumpRight, JumpUp, JumpUpHigh;
-	private bool highJump, scale, jumpPress;
+	private bool highJump, scale, jumpPress, pendurado;
 	private BoxCollider box;
 	void Start () {
-		speedZ = 0.1f;
+		speedZ =0.1f;
 		aceleration = 1;
 		scale = false;
 		highJump = false;
@@ -26,17 +30,27 @@ public class Player : MonoBehaviour {
 		MoveDown = new MoveDown ();
 		JumpUp = new JumpUp ();
 		JumpUpHigh = new JumpUpHigh ();
+
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		if (m_camera.gameObject.transform.position.z > transform.position.z) {
+			SceneManager.LoadScene (0);
+		}
 
-		if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) && !scale) {
+		pendurado = Gancho.cordaColidiu;
+		if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) {
 			MoveLeft.Execute (player);
 			}
+		else if(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) && !IsGrounded() && pendurado){
+			player.GetComponent<Rigidbody> ().AddRelativeForce(forcabalanco*transform.right*-1);
+			}
 
-		if (Input.GetKey (KeyCode.RightArrow) ||Input.GetKey(KeyCode.D) && !scale) {
+		if (Input.GetKey (KeyCode.RightArrow) ||Input.GetKey(KeyCode.D) ) {
 			MoveRight.Execute (player);
+		}else if(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) && !IsGrounded() && pendurado){
+			player.GetComponent<Rigidbody> ().AddRelativeForce(forcabalanco*transform.right*1);
 		}
 			
 		if ((Input.GetKey (KeyCode.UpArrow) ||Input.GetKey(KeyCode.W)) && scale ) {
@@ -47,7 +61,7 @@ public class Player : MonoBehaviour {
 			MoveDown.Execute (player);
 		}
 
-		if (Input.GetKeyDown (KeyCode.Space) && IsGrounded() && !jumpPress) {
+		if (Input.GetKeyDown (KeyCode.Space) && (IsGrounded() || scale) && !jumpPress) {
 			jumpPress = true;
 			if (highJump) {
 				JumpUpHigh.Execute (player);
@@ -58,14 +72,21 @@ public class Player : MonoBehaviour {
 			}
 
 		}
+
+
 		if (Input.GetKeyUp (KeyCode.Space)) {
 			jumpPress = false;
 		}
 
 		gameObject.transform.Translate (0,0,speedZ);
-		if (speedZ > 5) {
+		if (speedZ > 1) {
 			CancelInvoke();
 		}	
+
+		if(player.GetComponent<Rigidbody>().velocity.z > 30){
+			player.GetComponent<Rigidbody> ().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x,GetComponent<Rigidbody>().velocity.y,30);
+		
+		} 
 	}
 
 	void OnCollisionEnter (Collision collider){
@@ -77,6 +98,9 @@ public class Player : MonoBehaviour {
 		}
 		if (collider.gameObject.CompareTag ("jumpHigh")) {
 			highJump = true;
+		}
+		if (collider.gameObject.CompareTag ("Finish")) {
+			SceneManager.LoadScene (0);
 		}
 
 	}

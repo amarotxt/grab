@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Command {
-	protected float movimentSpeed = 5;
+	protected float movimentSpeed = 10;
 	protected float movimentScaleSpeed = 3.5f;
 	protected float forceJump = 20f;
 	protected float forceHighJump = 30f;

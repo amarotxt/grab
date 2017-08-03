@@ -7,6 +7,7 @@ using UnityEngine;
 public class Gancho : MonoBehaviour {
 
 	public float velLancar;
+	public float retornarGancho;
 	public float tamanhoCorda;
 	public float forcaCorda;
 	public float peso;
@@ -17,24 +18,30 @@ public class Gancho : MonoBehaviour {
 
 	private float distanciaDoPlayer;
 
-	private bool atirarCorda;
-	private bool cordaColidiu;
+	private bool atirarCorda, iniciarUpdate;
+	public static bool cordaColidiu;
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("Player");
+	
 		corpoRigido = GetComponent<Rigidbody> ();
-		efeitoCorda = player.GetComponent<SpringJoint> ();
 
+		efeitoCorda = player.GetComponent<SpringJoint> ();
 		atirarCorda = true;
 		cordaColidiu = false;
+		iniciarUpdate = true;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+		
 		distanciaDoPlayer = Vector3.Distance (transform.position, player.transform.position);
 
-		if (Input.GetMouseButtonDown (0)) {
+		if (Input.GetMouseButton(0) ) {
+			atirarCorda = true;
+		}
+		if(Input.GetMouseButtonUp (0) ){
 			atirarCorda = false;
 		}
 
@@ -49,9 +56,10 @@ public class Gancho : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider coll){
-		if (coll.gameObject.name != "Player") {
+		if (!coll.CompareTag("Player") && coll.CompareTag("grabCub") ) {
 			cordaColidiu = true;
 		}
+
 	}
 
 	public void AtirarGancho(){
@@ -64,15 +72,11 @@ public class Gancho : MonoBehaviour {
 				efeitoCorda.damper = peso;
 			}
 		}
-
-		if (distanciaDoPlayer > tamanhoCorda) {
-			atirarCorda = false;
-		}
 	}
 
 	public void RecolherGancho(){
-		transform.position = Vector3.MoveTowards (transform.position, player.transform.position, 25*Time.deltaTime);
-
+		transform.position = Vector3.MoveTowards (transform.position, player.transform.position, retornarGancho*Time.deltaTime);
+		cordaColidiu = false;
 		if (distanciaDoPlayer <= 2) {
 			Destroy (gameObject);
 		}

@@ -10,6 +10,7 @@ public class Disparador : MonoBehaviour {
 	private GameObject auxGancho;
 
 	public Camera m_camera;
+	public LayerMask parede;
 
 	public Transform dirDoClique;
 	private Transform auxDirDoClique;
@@ -19,17 +20,13 @@ public class Disparador : MonoBehaviour {
 
 	private Quaternion olharParaDir;
 
-	// Use this for initialization
-	void Start () {
-		
+	void Start(){
+		auxGancho = Instantiate(gancho, transform.position, olharParaDir) as GameObject;
+		Destroy (auxGancho);
 	}
-	
 	// Update is called once per frame
 	void Update () {
 		posMouse = Input.mousePosition;
-		Debug.Log (posMouse);
-
-
 
 //		posMouse.z = RaycastHit
 //		posMouse = m_camera.ScreenToWorldPoint (posMouse);
@@ -39,21 +36,19 @@ public class Disparador : MonoBehaviour {
 			if (Input.GetMouseButtonDown (0)) {
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-				if (Physics.Raycast (ray, out hit)) {
+				if (Physics.Raycast (ray, out hit, Mathf.Infinity, parede)) {
 					if (hit.collider != null) {
-						Debug.DrawRay ();
+						
 						posMouse.z = hit.collider.gameObject.transform.position.z;
 						posMouse = m_camera.ScreenToWorldPoint (posMouse);
-						Debug.Log (posMouse);
+					
 
 					}
 				}
 
 				auxDirDoClique = Instantiate (dirDoClique, posMouse, Quaternion.identity) as Transform;
-				Debug.Log (localDoClique);
 
 				localDoClique = (auxDirDoClique.transform.position - transform.position).normalized;
-				Debug.Log (localDoClique);
 				olharParaDir = Quaternion.LookRotation (localDoClique);
 
 				auxGancho = Instantiate (gancho, transform.position, olharParaDir) as GameObject;
