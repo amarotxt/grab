@@ -124,7 +124,9 @@ public class Player : MonoBehaviour {
 			actvateGravity ();
 			scale = false;
 		}
-
+		if (collider.gameObject.CompareTag ("jumpHigh")) {
+			highJump = false;
+		}
 	}
 	void deactvateGravity(){
 		player.GetComponent<Rigidbody> ().useGravity = false; 
@@ -136,6 +138,11 @@ public class Player : MonoBehaviour {
 
 		speedZ += (Time.deltaTime * aceleration);
 	}
+//	public void calcularVelocidade(){
+//		if ((float)Math.Log (pontuacao, 2) % 2 == 0 || (float)Math.Log (pontuacao, 2) % 2 == 1) {
+//			velocidade = (float)Math.Log (pontuacao, 2) ;
+//		}
+//	}
 	private bool IsGrounded()
 	{
 		RaycastHit ray;
