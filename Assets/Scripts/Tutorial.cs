@@ -2,29 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public class GameController : MonoBehaviour {
-	
-	public GameObject PainelMenu;
-	public GameObject PainelTutorial;
-	public Text distanciaPartida, recorde;
+public class Tutorial : MonoBehaviour {
+
 	int parentPosition;
-	// Use this for initialization
+	public GameObject PainelTutorial;
 	void Start () {
 		parentPosition = 0;
-		distanciaPartida.text = PlayerPrefs.GetFloat ("distanciaPartida").ToString("0.00");
-		recorde.text = PlayerPrefs.GetFloat ("recorde").ToString("0.00");
-
-	}
-
-	public void IniciarJogo(){
-		SceneManager.LoadScene (1);
-
-	}
-	public void IniciarTutorial(){
-		PainelMenu.SetActive(false);
-		PainelTutorial.SetActive (true);
 
 	}
 	public void NextPainelTuroial(){
@@ -50,7 +34,6 @@ public class GameController : MonoBehaviour {
 		}
 	}
 	public void SairTutorial(){
-		PainelTutorial.gameObject.SetActive (false);
-		PainelMenu.gameObject.SetActive (true);
+		SceneManager.LoadScene (1);
 	}
 }

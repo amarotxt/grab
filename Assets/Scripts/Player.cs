@@ -14,12 +14,21 @@ public class Player : MonoBehaviour {
 	public Text distance;
 
 	GameObject player;
+
 	Command MoveRight, MoveLeft, MoveUp, MoveDown, JumpLeft, JumpRight, JumpUp, JumpUpHigh;
 	private bool highJump, scale, jumpPress, pendurado;
 	private BoxCollider box;
 
+	private IEnumerator coroutine;
+
 	void Start () {
-		
+
+		if (PlayerPrefs.GetInt ("tutorial") == 0){
+			PlayerPrefs.SetInt ("tutorial", 1);	
+			SceneManager.LoadScene (2);
+		}
+
+
 		speedZ =0.1f;
 		aceleration = 1;
 		scale = false;
@@ -145,8 +154,8 @@ public class Player : MonoBehaviour {
 //	}
 	private bool IsGrounded()
 	{
-		RaycastHit ray;
-		return Physics.Raycast(transform.position,-transform.up,out ray, 1.5f);
+		return Physics.CheckBox (GetComponent<Collider>().bounds.center,new Vector3(0.2f,1f,0.2f), Quaternion.identity, groundLayers);
+
 	}
 
 }

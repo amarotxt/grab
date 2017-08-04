@@ -75,10 +75,10 @@ public class Gancho : MonoBehaviour {
 	}
 
 	public void RecolherGancho(){
-		transform.position = Vector3.MoveTowards (transform.position, player.transform.position, retornarGancho*Time.deltaTime);
+//		transform.position = Vector3.MoveTowards (transform.position, player.transform.position, retornarGancho*Time.deltaTime);
 		cordaColidiu = false;
-		if (distanciaDoPlayer <= 2) {
+//		if (distanciaDoPlayer <= 2) {
 			Destroy (gameObject);
-		}
+//		}
 	}
 }

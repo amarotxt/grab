@@ -8,13 +8,14 @@ public class Disparador : MonoBehaviour {
 
 	public  GameObject gancho;
 	private GameObject auxGancho;
+	public GameObject target;
 
 	public Camera m_camera;
 	public LayerMask parede;
 
 	public Transform dirDoClique;
 	private Transform auxDirDoClique;
-
+	private Vector3 posicaoMause;
 	private Vector3 localDoClique;
 	private Vector3 posMouse;
 
@@ -25,7 +26,7 @@ public class Disparador : MonoBehaviour {
 		Destroy (auxGancho);
 	}
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		posMouse = Input.mousePosition;
 
 //		posMouse.z = RaycastHit
@@ -55,5 +56,8 @@ public class Disparador : MonoBehaviour {
 				Destroy (auxDirDoClique.gameObject);
 			}
 		}
+		posicaoMause = Input.mousePosition;
+		posicaoMause.z = Vector3.Distance(m_camera.transform.position,transform.position);
+		target.transform.position = m_camera.ScreenToWorldPoint(posicaoMause);
 	}
 }
