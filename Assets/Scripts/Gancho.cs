@@ -44,7 +44,9 @@ public class Gancho : MonoBehaviour {
 		if(Input.GetMouseButtonUp (0) ){
 			atirarCorda = false;
 		}
-
+		if (distanciaDoPlayer >= tamanhoCorda) {
+			RecolherGancho ();
+		}
 		if (atirarCorda) {
 			AtirarGancho ();
 		} else {
@@ -59,9 +61,7 @@ public class Gancho : MonoBehaviour {
 		if (!coll.CompareTag("Player") && coll.CompareTag("grabCub") ) {
 			cordaColidiu = true;
 		}
-
 	}
-
 	public void AtirarGancho(){
 		if (distanciaDoPlayer <= tamanhoCorda) {
 			if (!cordaColidiu) {

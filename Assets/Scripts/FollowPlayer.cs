@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FollowPlayer : MonoBehaviour{
 	GameObject player;
@@ -15,17 +16,21 @@ public class FollowPlayer : MonoBehaviour{
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		distanciaCameraPlayer = Vector3.Distance(transform.position,player.transform.position);
+		if (player != null) {
+			distanciaCameraPlayer = Vector3.Distance (transform.position, player.transform.position);
 
-		positionPlay = new Vector3(player.transform.position.x,player.transform.position.y,player.transform.position.z);
+			positionPlay = new Vector3 (player.transform.position.x, player.transform.position.y, player.transform.position.z);
 
-		if (distanciaCameraPlayer > 2 && (player.transform.position.z > transform.position.z)) {
-			positionFollow = new Vector3 (positionPlay.x, positionPlay.y, (positionFollow.z + player.gameObject.GetComponent<Player> ().speedZ)+(positionPlay.z-positionFollow.z));
+			if (distanciaCameraPlayer > 2 && (player.transform.position.z > transform.position.z)) {
+				positionFollow = new Vector3 (positionPlay.x, positionPlay.y, (positionFollow.z + player.gameObject.GetComponent<Player> ().speedZ) + (positionPlay.z - positionFollow.z));
+			} else {
+				positionFollow = new Vector3 (positionPlay.x, positionPlay.y, (positionFollow.z + player.gameObject.GetComponent<Player> ().speedZ));
+
+			}
+			gameObject.transform.position = positionFollow;
 		} else {
-			positionFollow = new Vector3 (positionPlay.x, positionPlay.y, (positionFollow.z + player.gameObject.GetComponent<Player> ().speedZ));
-
+			SceneManager.LoadScene (0);
 		}
-		gameObject.transform.position = positionFollow;
 	}
 
 
