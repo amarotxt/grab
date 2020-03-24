@@ -15,8 +15,8 @@ public class Player : MonoBehaviour {
 
 	GameObject player;
 
-	Command MoveRight, MoveLeft, MoveUp, MoveDown, JumpLeft, JumpRight, JumpUp, JumpUpHigh;
-	private bool highJump, scale, jumpPress, pendurado;
+	Command MoveRight, MoveLeft, MoveUp, MoveDown, JumpLeft, JumpRight, JumpUp, JumpUpHigh, GoDown;
+	private bool highJump, scale, canJump, pendurado;
 	private BoxCollider box;
 
 	private IEnumerator coroutine;
@@ -33,6 +33,7 @@ public class Player : MonoBehaviour {
 		aceleration = 1;
 		scale = false;
 		highJump = false;
+		canJump = true;
 		player = GameObject.Find ("Player");
 		box = player.gameObject.GetComponent<BoxCollider> ();
 		InvokeRepeating ("IncreaseSpeed",0.5f, 5.0f);
@@ -42,7 +43,7 @@ public class Player : MonoBehaviour {
 		MoveDown = new MoveDown ();
 		JumpUp = new JumpUp ();
 		JumpUpHigh = new JumpUpHigh ();
-
+		GoDown = new GoDown ();
 	}
 	
 	// Update is called once per frame
@@ -75,12 +76,15 @@ public class Player : MonoBehaviour {
 			MoveUp.Execute (player);
 		}
 
+		if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && !scale) {
+			GoDown.Execute (player);
+		}
+
 		if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && scale) {
 			MoveDown.Execute (player);
 		}
 
-		if (Input.GetKeyDown (KeyCode.Space) && (IsGrounded() || scale) && !jumpPress) {
-			jumpPress = true;
+		if (Input.GetKeyDown (KeyCode.Space) && (IsGrounded() || scale) && canJump) {
 			if (highJump) {
 				JumpUpHigh.Execute (player);
 				highJump = false;
@@ -92,14 +96,11 @@ public class Player : MonoBehaviour {
 		}
 
 
-		if (Input.GetKeyUp (KeyCode.Space)) {
-			jumpPress = false;
-		}
-
 		gameObject.transform.Translate (0,0,speedZ);
-		if (speedZ > 1) {
-			CancelInvoke();
-		}	
+		// Debug.Log(speedZ);	
+		// if (speedZ > 1) {
+		// 	CancelInvoke();
+		// }	
 
 		if(player.GetComponent<Rigidbody>().velocity.z > 25){
 			player.GetComponent<Rigidbody> ().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x,GetComponent<Rigidbody>().velocity.y,25);
@@ -118,6 +119,9 @@ public class Player : MonoBehaviour {
 		if (collider.gameObject.CompareTag ("jumpHigh")) {
 			highJump = true;
 		}
+		if (collider.gameObject.CompareTag ("notJump")) {
+			canJump = false;
+		}
 		if (collider.gameObject.CompareTag ("Finish")) {
 			PlayerPrefs.SetFloat ("distanciaPartida", player.transform.position.z);
 			if (PlayerPrefs.GetFloat ("distanciaPartida") >= PlayerPrefs.GetFloat ("recorde")) {
@@ -128,7 +132,9 @@ public class Player : MonoBehaviour {
 
 	}
 	void OnCollisionExit (Collision collider){
-		
+		if (collider.gameObject.CompareTag ("notJump")) {
+			canJump = true;
+		}
 		if (collider.gameObject.CompareTag ("scaleCub")) {
 			actvateGravity ();
 			scale = false;

@@ -47,22 +47,17 @@ public class MoveDown : Command{
 		player.transform.Translate (new Vector3(0,-(Time.deltaTime*movimentScaleSpeed),0));
 	}
 }
-//public class JumpLeft : Command{
-//	public override void Execute(GameObject player){
-//		Jump (player.GetComponent<Rigidbody>());
-//	}
-//	public override void Jump (Rigidbody player){
-//		player.AddForce (new Vector3 (-(forceJump),forceJump, 0));
-//	}
-//}
-//public class JumpRight : Command{
-//	public override void Execute(GameObject player){
-//		Jump (player.GetComponent<Rigidbody>());
-//	}
-//	public override void Jump (Rigidbody player){
-//		player.AddForce (new Vector3 ( forceJump,forceJump, 0));
-//	}
-//}
+
+public class GoDown : Command{
+	public override void Execute(GameObject player){
+		Jump (player.GetComponent<Rigidbody>());
+	}
+	public override void Jump (Rigidbody player){
+		player.AddForce ((Vector3.down),ForceMode.Impulse);
+	}
+}
+
+
 public class JumpUp : Command{
 	public override void Execute(GameObject player){
 		Jump (player.GetComponent<Rigidbody>());

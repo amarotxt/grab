@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Invoke : MonoBehaviour {
-	public GameObject grabCub, jumpHigh, notGrab, scaleCub;   
+	public GameObject grabCub, jumpHigh, notJump, scaleCub;   
 	int randomCub;
 
 	// Use this for initialization
@@ -26,7 +26,7 @@ public class Invoke : MonoBehaviour {
 
 		}
 		if (randomCub >= 61 && randomCub <= 80){
-			cub = Instantiate (notGrab, new Vector3(this.transform.position.x+Random.Range(-14,14),this.transform.position.y+Random.Range(-10,0),this.transform.position.z),Quaternion.identity);
+			cub = Instantiate (notJump, new Vector3(this.transform.position.x+Random.Range(-14,14),this.transform.position.y+Random.Range(-10,0),this.transform.position.z),Quaternion.identity);
 			cub.transform.localScale = new Vector3 (Random.Range(2f,10f),Random.Range(2f,15f),Random.Range(5,30));
 
 		}
