@@ -48,10 +48,13 @@ public class Disparador : MonoBehaviour {
 				
 				auxDirDoClique = Instantiate (dirDoClique, posMouse, Quaternion.identity) as Transform;
 			}
-			localDoClique = (auxDirDoClique.transform.position - transform.position).normalized;
-			olharParaDir = Quaternion.LookRotation (localDoClique);
-			auxGancho = Instantiate (gancho, transform.position, olharParaDir) as GameObject;
-			Destroy (auxDirDoClique.gameObject);
+			if (auxDirDoClique != null){
+				localDoClique = (auxDirDoClique.transform.position - transform.position).normalized;
+				olharParaDir = Quaternion.LookRotation (localDoClique);
+				auxGancho = Instantiate (gancho, transform.position, olharParaDir) as GameObject;
+				Destroy (auxDirDoClique.gameObject);
+
+			}
 		}
 		// if (Input.GetMouseButtonUp (0) && auxGancho.gameObject != null) {
 		// 	Debug.Log(auxGancho.gameObject);
