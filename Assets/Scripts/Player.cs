@@ -46,7 +46,6 @@ public class Player : MonoBehaviour {
 		GoDown = new GoDown ();
 	}
 	
-	// Update is called once per frame
 	void FixedUpdate () {
 		distance.text = player.transform.position.z.ToString("0.00"); 
 		if (m_camera.gameObject.transform.position.z > transform.position.z) {
@@ -78,23 +77,9 @@ public class Player : MonoBehaviour {
 
 		if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && !scale) {
 			GoDown.Execute (player);
-		}
-
-		if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && scale) {
+		}else if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && scale) {
 			MoveDown.Execute (player);
 		}
-
-		if (Input.GetKeyDown (KeyCode.Space) && (IsGrounded() || scale) && canJump) {
-			if (highJump) {
-				JumpUpHigh.Execute (player);
-				highJump = false;
-			} else {
-
-				JumpUp.Execute (player);
-			}
-
-		}
-
 
 		gameObject.transform.Translate (0,0,speedZ);
 		// Debug.Log(speedZ);	
@@ -104,8 +89,20 @@ public class Player : MonoBehaviour {
 
 		if(player.GetComponent<Rigidbody>().velocity.z > 25){
 			player.GetComponent<Rigidbody> ().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x,GetComponent<Rigidbody>().velocity.y,25);
-
 		} 
+	}
+	// Update is called once per frame
+	void Update () {
+		if (Input.GetKeyDown (KeyCode.Space) && (IsGrounded() || scale) && canJump) {
+				if (highJump) {
+					JumpUpHigh.Execute (player);
+					highJump = false;
+				} else {
+					JumpUp.Execute (player);
+				}
+
+			}
+
 	}
 
 
@@ -161,7 +158,6 @@ public class Player : MonoBehaviour {
 	private bool IsGrounded()
 	{
 		return Physics.CheckBox (GetComponent<Collider>().bounds.center,new Vector3(0.2f,1f,0.2f), Quaternion.identity, groundLayers);
-
 	}
 
 }

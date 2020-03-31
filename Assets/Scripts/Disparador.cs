@@ -22,42 +22,49 @@ public class Disparador : MonoBehaviour {
 	private Quaternion olharParaDir;
 
 	void Start(){
-		auxGancho = Instantiate(gancho, transform.position, olharParaDir) as GameObject;
-		Destroy (auxGancho);
 	}
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 		posMouse = Input.mousePosition;
 
 //		posMouse.z = RaycastHit
 //		posMouse = m_camera.ScreenToWorldPoint (posMouse);
 
 
-		if (auxGancho == null) {
-			if (Input.GetMouseButtonDown (0)) {
-				RaycastHit hit;
-				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-				if (Physics.Raycast (ray, out hit, Mathf.Infinity, parede)) {
-					if (hit.collider != null) {
-						
-						posMouse.z = hit.collider.gameObject.transform.position.z;
-						posMouse = m_camera.ScreenToWorldPoint (posMouse);
+		// if (auxGancho == null) {
+		if (Input.GetMouseButtonDown (0)) {
+			RaycastHit hit;
+			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+			if (Physics.Raycast (ray, out hit, Mathf.Infinity, parede)) {
+				
+				if (hit.collider != null) {
+					
+					posMouse.z = hit.collider.gameObject.transform.position.z;
+					posMouse = m_camera.ScreenToWorldPoint (posMouse);
 					
 
-					}
 				}
-
+				
+				Debug.DrawRay(posicaoMause, hit.point , Color.red, Mathf.Infinity);
 				auxDirDoClique = Instantiate (dirDoClique, posMouse, Quaternion.identity) as Transform;
-
-				localDoClique = (auxDirDoClique.transform.position - transform.position).normalized;
-				olharParaDir = Quaternion.LookRotation (localDoClique);
-
-				auxGancho = Instantiate (gancho, transform.position, olharParaDir) as GameObject;
-				Destroy (auxDirDoClique.gameObject);
 			}
+
+
+			localDoClique = (auxDirDoClique.transform.position - transform.position).normalized;
+			olharParaDir = Quaternion.LookRotation (localDoClique);
+
+			auxGancho = Instantiate (gancho, transform.position, olharParaDir) as GameObject;
+			Destroy (auxDirDoClique.gameObject);
 		}
+		// if (Input.GetMouseButtonUp (0) && auxGancho.gameObject != null) {
+		// 	Debug.Log(auxGancho.gameObject);
+		// 	Destroy (auxGancho.gameObject);
+			
+		// }
+		// }
 		posicaoMause = Input.mousePosition;
 		posicaoMause.z = Vector3.Distance(m_camera.transform.position,transform.position);
+		
 		target.transform.position = m_camera.ScreenToWorldPoint(posicaoMause);
 	}
 }

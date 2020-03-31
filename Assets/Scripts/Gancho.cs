@@ -34,25 +34,19 @@ public class Gancho : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 		
 		distanciaDoPlayer = Vector3.Distance (transform.position, player.transform.position);
 
 		if (Input.GetMouseButton(0) ) {
-			atirarCorda = true;
+			AtirarGancho ();
 		}
 		if(Input.GetMouseButtonUp (0) ){
-			atirarCorda = false;
+			RecolherGancho ();
 		}
 		if (distanciaDoPlayer >= tamanhoCorda) {
 			RecolherGancho ();
 		}
-		if (atirarCorda) {
-			AtirarGancho ();
-		} else {
-			RecolherGancho ();
-		}
-
 		GetComponent<LineRenderer> ().SetPosition (0, player.transform.position);
 		GetComponent<LineRenderer> ().SetPosition (1, transform.position);
 	}
@@ -78,7 +72,7 @@ public class Gancho : MonoBehaviour {
 //		transform.position = Vector3.MoveTowards (transform.position, player.transform.position, retornarGancho*Time.deltaTime);
 		cordaColidiu = false;
 //		if (distanciaDoPlayer <= 2) {
-			Destroy (gameObject);
+		Destroy (gameObject);
 //		}
 	}
 }

@@ -13,7 +13,7 @@ public class Cenario : MonoBehaviour {
 	void FixedUpdate () {
 		//Seguir jogador
 		if (player != null ){
-		gameObject.transform.position = new Vector3 (0,0,player.transform.position.z);
+			gameObject.transform.position = new Vector3 (0,0,player.transform.position.z);
 		}	
 	}
 }
