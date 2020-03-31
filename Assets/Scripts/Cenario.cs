@@ -10,7 +10,7 @@ public class Cenario : MonoBehaviour {
 	void Start (){
 		player = GameObject.Find("Player").GetComponent<Transform>();
 	}
-	void FixedUpdate () {
+	void Update () {
 		//Seguir jogador
 		if (player != null ){
 			gameObject.transform.position = new Vector3 (0,0,player.transform.position.z);
