@@ -11,8 +11,6 @@ public class Disparador : MonoBehaviour {
 	public GameObject target;
 
 	public Camera m_camera;
-	public LayerMask parede;
-
 	public Transform dirDoClique;
 	private Transform auxDirDoClique;
 	private Vector3 posicaoMause;
@@ -37,7 +35,7 @@ public class Disparador : MonoBehaviour {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			
-			if (Physics.Raycast (ray, out hit, Mathf.Infinity, parede)) {
+			if (Physics.Raycast (ray, out hit, Mathf.Infinity)) {
 				if (hit.collider != null) {
 					
 					posMouse.z = hit.collider.gameObject.transform.position.z;
