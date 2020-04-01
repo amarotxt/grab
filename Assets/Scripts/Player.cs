@@ -54,7 +54,6 @@ public class Player : MonoBehaviour {
 				PlayerPrefs.SetFloat ("recorde", player.transform.position.z);
 			}
 			SceneManager.LoadScene (0);
-
 		}
 
 		pendurado = Gancho.cordaColidiu;
@@ -77,26 +76,24 @@ public class Player : MonoBehaviour {
 
 		if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && !scale) {
 			GoDown.Execute (player);
-		}else if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && scale) {
+		} else if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && scale) {
 			MoveDown.Execute (player);
 		}
 
 		gameObject.transform.Translate (0,0,speedZ);
-		// Debug.Log(speedZ);	
-		// if (speedZ > 1) {
-		// 	CancelInvoke();
-		// }	
-
+		
 		if(player.GetComponent<Rigidbody>().velocity.z > 25){
 			player.GetComponent<Rigidbody> ().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x,GetComponent<Rigidbody>().velocity.y,25);
 		} 
 	}
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Space) && (IsGrounded() || scale) && canJump) {
+		if (Input.GetKeyDown (KeyCode.Space) && (IsGrounded() || (scale)) && canJump) {
+				canJump = scale ? false : true; 
 				if (highJump) {
 					JumpUpHigh.Execute (player);
 					highJump = false;
+
 				} else {
 					JumpUp.Execute (player);
 				}
@@ -111,6 +108,7 @@ public class Player : MonoBehaviour {
 		if (collider.gameObject.CompareTag ("scaleCub")) {
 			deactvateGravity ();
 			player.GetComponent<Rigidbody> ().Sleep ();
+			canJump = true;
 			scale = true;
 		}
 		if (collider.gameObject.CompareTag ("jumpHigh")) {
@@ -128,6 +126,7 @@ public class Player : MonoBehaviour {
 		}
 
 	}
+
 	void OnCollisionExit (Collision collider){
 		if (collider.gameObject.CompareTag ("notJump")) {
 			canJump = true;
@@ -135,6 +134,7 @@ public class Player : MonoBehaviour {
 		if (collider.gameObject.CompareTag ("scaleCub")) {
 			actvateGravity ();
 			scale = false;
+			canJump = true;
 		}
 		if (collider.gameObject.CompareTag ("jumpHigh")) {
 			highJump = false;
@@ -157,7 +157,7 @@ public class Player : MonoBehaviour {
 //	}
 	private bool IsGrounded()
 	{
-		return Physics.CheckBox (GetComponent<Collider>().bounds.center,new Vector3(0.2f,1f,0.2f), Quaternion.identity, groundLayers);
+		return Physics.CheckBox (GetComponent<Collider>().bounds.center,new Vector3(0.2f,1.5f,0.2f), Quaternion.identity, groundLayers);
 	}
 
 }

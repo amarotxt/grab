@@ -140,7 +140,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 72346225}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18, y: 4.2, z: 20.2}
+  m_LocalPosition: {x: -18, y: 160, z: 20.2}
   m_LocalScale: {x: 0.2, y: 513.2222, z: 140}
   m_Children: []
   m_Father: {fileID: 279788950}
@@ -544,9 +544,6 @@ MonoBehaviour:
   gancho: {fileID: 1856834331615288, guid: d5313b961e5ec284fa131a460494b4a3, type: 3}
   target: {fileID: 258282590}
   m_camera: {fileID: 1943263513}
-  parede:
-    serializedVersion: 2
-    m_Bits: 512
   dirDoClique: {fileID: 4829010154738568, guid: 3c59afce02418e94e8fe838eb92cacc2,
     type: 3}
 --- !u!33 &201597447
@@ -1093,7 +1090,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 423348841}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18, y: 4.2, z: 20.2}
+  m_LocalPosition: {x: 18, y: 160, z: 20.2}
   m_LocalScale: {x: 0.2, y: 535.1538, z: 140}
   m_Children: []
   m_Father: {fileID: 279788950}
