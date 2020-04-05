@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Command {
 	protected float movimentSpeed = 10;
+	protected float movimentSpeedFoward = 3;
 	protected float movimentScaleSpeed = 3.5f;
 	protected float forceJump = 20f;
 	protected float forceHighJump = 30f;
@@ -56,6 +57,16 @@ public class GoDown : Command{
 		player.AddForce ((Vector3.down),ForceMode.Impulse);
 	}
 }
+
+public class GoFoward : Command{
+	public override void Execute(GameObject player){
+		Move (player.transform);
+	}
+	public override void Move (Transform player){
+		player.transform.Translate (new Vector3(0,0,(Time.deltaTime*movimentSpeedFoward)));
+	}
+}
+
 
 
 public class JumpUp : Command{

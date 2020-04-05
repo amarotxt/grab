@@ -10,6 +10,7 @@ public class FollowPlayer : MonoBehaviour{
 	float distanciaCameraPlayer;
 	// Use this for initialization
 	void Start () {
+		// player	= GameObject.FindWithTag ("Player");
 		player	= GameObject.Find ("Player");
 		positionFollow = new Vector3 (0,0,0);
 	}
@@ -22,7 +23,6 @@ public class FollowPlayer : MonoBehaviour{
 			positionPlay = new Vector3 (player.transform.position.x, player.transform.position.y, player.transform.position.z);
 
 			if (distanciaCameraPlayer > 2 && (player.transform.position.z > transform.position.z)) {
-				// Debug.Log("aq");
 				positionFollow = new Vector3 (positionPlay.x, positionPlay.y, (positionFollow.z + player.gameObject.GetComponent<Player> ().speedZ) + (positionPlay.z - positionFollow.z));
 			} else {
 				// positionFollow = new Vector3 (positionPlay.x, positionPlay.y, (positionFollow.z + player.gameObject.GetComponent<Player> ().speedZ) + (positionPlay.z - positionFollow.z));

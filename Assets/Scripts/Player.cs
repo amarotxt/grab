@@ -15,7 +15,7 @@ public class Player : MonoBehaviour {
 
 	GameObject player;
 
-	Command MoveRight, MoveLeft, MoveUp, MoveDown, JumpLeft, JumpRight, JumpUp, JumpUpHigh, GoDown;
+	Command MoveRight, MoveLeft, MoveUp, MoveDown, JumpLeft, JumpRight, JumpUp, JumpUpHigh, GoDown, GoFoward;
 	private bool highJump, scale, canJump, pendurado;
 	private BoxCollider box;
 
@@ -44,6 +44,7 @@ public class Player : MonoBehaviour {
 		JumpUp = new JumpUp ();
 		JumpUpHigh = new JumpUpHigh ();
 		GoDown = new GoDown ();
+		GoFoward = new GoFoward ();
 	}
 	
 	void FixedUpdate () {
@@ -99,7 +100,9 @@ public class Player : MonoBehaviour {
 				}
 
 			}
-
+ 		if ((Input.GetKey (KeyCode.UpArrow) ||Input.GetKey(KeyCode.W)) && !scale ) {
+			GoFoward.Execute (player);
+		}
 	}
 
 

@@ -375,11 +375,11 @@ GameObject:
   - component: {fileID: 232071636}
   - component: {fileID: 232071635}
   - component: {fileID: 232071634}
-  - component: {fileID: 232071633}
   - component: {fileID: 232071632}
   - component: {fileID: 232071631}
   - component: {fileID: 232071630}
   - component: {fileID: 232071629}
+  - component: {fileID: 232071638}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -547,26 +547,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &232071633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 232071628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d37fdcec035a7e41964805d10f7d9a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedZ: 0.1
-  aceleration: 0.5
-  forcabalanco: 10
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 768
-  m_camera: {fileID: 510454259}
-  distance: {fileID: 1446524745}
 --- !u!65 &232071634
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -641,6 +621,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &232071638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232071628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d37fdcec035a7e41964805d10f7d9a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedZ: 0.1
+  aceleration: 0.5
+  forcabalanco: 10
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_camera: {fileID: 510454259}
+  distance: {fileID: 1446524745}
 --- !u!1001 &234279460
 PrefabInstance:
   m_ObjectHideFlags: 0
