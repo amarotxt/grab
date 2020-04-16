@@ -12,13 +12,13 @@ public class Player : MonoBehaviour {
 	public LayerMask groundLayers;
 	public Camera m_camera;
 	public Text distance;
-
+	public float distancePoint;
 	GameObject player;
 
 	Command MoveRight, MoveLeft, MoveUp, MoveDown, JumpLeft, JumpRight, JumpUp, JumpUpHigh, GoDown, GoFoward;
 	private bool highJump, scale, canJump, pendurado;
 	private BoxCollider box;
-
+	float points;
 	private IEnumerator coroutine;
 
 	void Start () {
@@ -28,7 +28,8 @@ public class Player : MonoBehaviour {
 			SceneManager.LoadScene (2);
 		}
 
-
+		points = 0;
+		distancePoint = 0;
 		speedZ =0.1f;
 		aceleration = 1;
 		scale = false;
@@ -36,7 +37,7 @@ public class Player : MonoBehaviour {
 		canJump = true;
 		player = GameObject.Find ("Player");
 		box = player.gameObject.GetComponent<BoxCollider> ();
-		InvokeRepeating ("IncreaseSpeed",0.5f, 5.0f);
+		// InvokeRepeating ("IncreaseSpeed",0.5f, 5.0f);
 		MoveRight = new MoveRight ();
 		MoveLeft = new MoveLeft ();
 		MoveUp = new MoveUp ();
@@ -48,6 +49,11 @@ public class Player : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
+		distancePoint = player.transform.position.z;
+		if (distancePoint-points > 100){
+			points = distancePoint;
+			IncreaseSpeed();
+		}
 		distance.text = player.transform.position.z.ToString("0.00"); 
 		if (m_camera.gameObject.transform.position.z > transform.position.z) {
 			PlayerPrefs.SetFloat ("distanciaPartida", transform.position.z);
@@ -86,6 +92,8 @@ public class Player : MonoBehaviour {
 		if(player.GetComponent<Rigidbody>().velocity.z > 25){
 			player.GetComponent<Rigidbody> ().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x,GetComponent<Rigidbody>().velocity.y,25);
 		} 
+
+		
 	}
 	// Update is called once per frame
 	void Update () {
@@ -150,7 +158,8 @@ public class Player : MonoBehaviour {
 		player.GetComponent<Rigidbody> ().useGravity = true; 
 	}
 	void IncreaseSpeed(){
-
+		Debug.Log("points: "+points);
+		Debug.Log("speedZ: "+speedZ);
 		speedZ += (Time.deltaTime * aceleration);
 	}
 //	public void calcularVelocidade(){

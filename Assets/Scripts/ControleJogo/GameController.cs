@@ -22,6 +22,11 @@ public class GameController : MonoBehaviour {
 		SceneManager.LoadScene (1);
 
 	}
+	public void InfinitRun(){
+		SceneManager.LoadScene (1);
+
+	}
+
 	public void IniciarTutorial(){
 		PainelMenu.SetActive(false);
 		PainelTutorial.SetActive (true);

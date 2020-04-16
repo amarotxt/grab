@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velLancar: 400
   retornarGancho: 400
-  tamanhoCorda: 90
+  tamanhoCorda: 100
   forcaCorda: 10
   peso: 30
 --- !u!120 &120207248770429524
