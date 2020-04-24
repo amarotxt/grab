@@ -4,58 +4,56 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour {
-	
-	public GameObject PainelMenu;
-	public GameObject PainelTutorial;
-	public Text distanciaPartida, recorde;
-	int parentPosition;
-	// Use this for initialization
-	void Start () {
-		parentPosition = 0;
-		distanciaPartida.text = PlayerPrefs.GetFloat ("distanciaPartida").ToString("0.00");
-		recorde.text = PlayerPrefs.GetFloat ("recorde").ToString("0.00");
+public class GameController : MonoBehaviour
+{
+    public static GameController controller = null;
+    int parentPosition;
+    int faseAtual = 2;
+    // Use this for initialization
+    void Awake()
+    {
+        if (controller == null)
+        {
+            controller = this;
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
+        parentPosition = 0;
+       
+        // Debug.Log("antes inicio "+PlayerPrefs.GetInt("faseAtual"));
 
-	}
+        if (PlayerPrefs.GetInt("faseAtual") != 0)
+        {
+            // Debug.Log("inicio"+PlayerPrefs.GetInt("faseAtual"));
+            faseAtual = faseAtual + PlayerPrefs.GetInt("faseAtual");
+        }
+        else
+        {
+            PlayerPrefs.SetInt("faseAtual", faseAtual);
+        }
+      
+        DontDestroyOnLoad(this.gameObject);
+    }
 
-	public void IniciarJogo(){
-		SceneManager.LoadScene (1);
+    public void IniciarJogo()
+    {
+        Debug.Log("IniciarJogo"+PlayerPrefs.GetInt("faseAtual"));
+        SceneManager.LoadScene(PlayerPrefs.GetInt("faseAtual"));
 
-	}
-	public void InfinitRun(){
-		SceneManager.LoadScene (1);
+    }
+    public void InfinitRun()
+    {
+        SceneManager.LoadScene(1);
 
-	}
+    }
 
-	public void IniciarTutorial(){
-		PainelMenu.SetActive(false);
-		PainelTutorial.SetActive (true);
+    public void NextFase()
+    {
+        PlayerPrefs.SetInt("faseAtual", faseAtual++);
+        SceneManager.LoadScene(faseAtual);
 
-	}
-	public void NextPainelTuroial(){
-		parentPosition += 1;
-		if (parentPosition >= 2 ) {
-			parentPosition = 2;
-		} 
-		DesativarPaineisTutorial ();
-		PainelTutorial.transform.GetChild (parentPosition).gameObject.SetActive (true);
-	}
-	public void BackPainelTuroial(){
-		parentPosition -= 1;
-		if (parentPosition <= 0 ) {
-			parentPosition = 0;
-		}
-		DesativarPaineisTutorial ();
-		PainelTutorial.transform.GetChild (parentPosition).gameObject.SetActive (true);
-	}
-	void DesativarPaineisTutorial(){
-		int i = 0;
-		for(i=0;i<=2; i++){
-			PainelTutorial.transform.GetChild (i).gameObject.SetActive (false);
-		}
-	}
-	public void SairTutorial(){
-		PainelTutorial.gameObject.SetActive (false);
-		PainelMenu.gameObject.SetActive (true);
-	}
+    }
+
 }

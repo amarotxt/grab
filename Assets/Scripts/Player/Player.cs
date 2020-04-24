@@ -20,9 +20,8 @@ public class Player : MonoBehaviour {
 	private BoxCollider box;
 	float points;
 	private IEnumerator coroutine;
-
+	
 	void Start () {
-
 		if (PlayerPrefs.GetInt ("tutorial") == 0){
 			PlayerPrefs.SetInt ("tutorial", 1);	
 			SceneManager.LoadScene (2);
@@ -77,7 +76,7 @@ public class Player : MonoBehaviour {
 			player.GetComponent<Rigidbody> ().AddRelativeForce(forcabalanco*transform.right*1);
 		}
 
-		if ((Input.GetKey (KeyCode.UpArrow) ||Input.GetKey(KeyCode.W)) && scale ) {
+		if ((Input.GetKey (KeyCode.UpArrow) ||Input.GetKey(KeyCode.W)) && scale && !IsGrounded()) {
 			MoveUp.Execute (player);
 		}
 
@@ -113,6 +112,19 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// OnTriggerEnter is called when the Collider other enters the trigger.
+	/// </summary>
+	/// <param name="other">The other Collider involved in this collision.</param>
+	void OnTriggerEnter(Collider other)
+	{
+		if (collider.gameObject.CompareTag ("end")) {
+			deactvateGravity ();
+			player.GetComponent<Rigidbody> ().Sleep ();
+			canJump = true;
+			scale = true;
+		}
+	}
 
 	void OnCollisionEnter (Collision collider){
 	
@@ -158,8 +170,6 @@ public class Player : MonoBehaviour {
 		player.GetComponent<Rigidbody> ().useGravity = true; 
 	}
 	void IncreaseSpeed(){
-		Debug.Log("points: "+points);
-		Debug.Log("speedZ: "+speedZ);
 		speedZ += (Time.deltaTime * aceleration);
 	}
 //	public void calcularVelocidade(){
