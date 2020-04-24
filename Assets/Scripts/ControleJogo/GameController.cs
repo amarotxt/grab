@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController controller = null;
     int parentPosition;
-    int faseAtual = 2;
+    // int faseAtual = 2;
     // Use this for initialization
     void Awake()
     {
@@ -24,14 +24,9 @@ public class GameController : MonoBehaviour
        
         // Debug.Log("antes inicio "+PlayerPrefs.GetInt("faseAtual"));
 
-        if (PlayerPrefs.GetInt("faseAtual") != 0)
+        if (PlayerPrefs.GetInt("faseAtual") <= 2)
         {
-            // Debug.Log("inicio"+PlayerPrefs.GetInt("faseAtual"));
-            faseAtual = faseAtual + PlayerPrefs.GetInt("faseAtual");
-        }
-        else
-        {
-            PlayerPrefs.SetInt("faseAtual", faseAtual);
+            PlayerPrefs.SetInt("faseAtual", 2);
         }
       
         DontDestroyOnLoad(this.gameObject);
@@ -39,7 +34,7 @@ public class GameController : MonoBehaviour
 
     public void IniciarJogo()
     {
-        Debug.Log("IniciarJogo"+PlayerPrefs.GetInt("faseAtual"));
+        // Debug.Log("IniciarJogo"+PlayerPrefs.GetInt("faseAtual"));
         SceneManager.LoadScene(PlayerPrefs.GetInt("faseAtual"));
 
     }
@@ -51,9 +46,8 @@ public class GameController : MonoBehaviour
 
     public void NextFase()
     {
-        PlayerPrefs.SetInt("faseAtual", faseAtual++);
-        SceneManager.LoadScene(faseAtual);
-
+        PlayerPrefs.SetInt("faseAtual",PlayerPrefs.GetInt("faseAtual")+1);
+        SceneManager.LoadScene(PlayerPrefs.GetInt("faseAtual"));
     }
 
 }

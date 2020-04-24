@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class Controller1 : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void checkMission()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameController.controller.NextFase();
     }
 }

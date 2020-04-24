@@ -118,11 +118,9 @@ public class Player : MonoBehaviour {
 	/// <param name="other">The other Collider involved in this collision.</param>
 	void OnTriggerEnter(Collider other)
 	{
-		if (collider.gameObject.CompareTag ("end")) {
-			deactvateGravity ();
-			player.GetComponent<Rigidbody> ().Sleep ();
-			canJump = true;
-			scale = true;
+		if (other.gameObject.CompareTag ("end")) {
+			var controller = GameObject.FindWithTag("controller").GetComponent<Controller1>();
+			controller.checkMission();
 		}
 	}
 
