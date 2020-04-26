@@ -11,20 +11,17 @@ public class Gancho : MonoBehaviour {
 	public float tamanhoCorda;
 	public float forcaCorda;
 	public float peso;
+	public static bool cordaColidiu;
 
 	private GameObject player;
 	private Rigidbody corpoRigido;
 	private SpringJoint efeitoCorda;
-
 	private float distanciaDoPlayer;
-
 	private bool atirarCorda, iniciarUpdate;
-	public static bool cordaColidiu;
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("Player");
-	
 		corpoRigido = GetComponent<Rigidbody> ();
 
 		efeitoCorda = player.GetComponent<SpringJoint> ();
@@ -40,15 +37,19 @@ public class Gancho : MonoBehaviour {
 
 		if (Input.GetMouseButton(0) ) {
 			AtirarGancho ();
+			GetComponent<LineRenderer>().enabled = true;
+			GetComponent<LineRenderer> ().SetPosition (0, player.transform.position);
+			GetComponent<LineRenderer> ().SetPosition (1, transform.position);
+
 		}
 		if(Input.GetMouseButtonUp (0) ){
+			// Debug.Log(cordaColidiu);
 			RecolherGancho ();
 		}
 		if (distanciaDoPlayer >= tamanhoCorda) {
 			RecolherGancho ();
 		}
-		GetComponent<LineRenderer> ().SetPosition (0, player.transform.position);
-		GetComponent<LineRenderer> ().SetPosition (1, transform.position);
+		// GetComponent<LineRenderer> ().SetPosition (0, player.transform.position);
 	}
 
 	void OnTriggerEnter(Collider coll){
@@ -70,9 +71,12 @@ public class Gancho : MonoBehaviour {
 
 	public void RecolherGancho(){
 //		transform.position = Vector3.MoveTowards (transform.position, player.transform.position, retornarGancho*Time.deltaTime);
+		// Debug.Log(cordaColidiu);
 		cordaColidiu = false;
+		gameObject.transform.position = Vector3.zero;
+		GetComponent<LineRenderer>().enabled = false;
 //		if (distanciaDoPlayer <= 2) {
-		Destroy (gameObject);
+		gameObject.SetActive(false);
 //		}
 	}
 }

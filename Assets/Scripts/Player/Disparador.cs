@@ -4,63 +4,80 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Disparador : MonoBehaviour {
+public class Disparador : MonoBehaviour
+{
 
-	public  GameObject gancho;
-	private GameObject auxGancho;
-	public GameObject target;
+    public GameObject gancho;
+    private GameObject auxGancho;
+    public GameObject target;
 
-	public Camera m_camera;
-	public Transform dirDoClique;
-	private Transform auxDirDoClique;
-	private Vector3 posicaoMause;
-	private Vector3 localDoClique;
-	private Vector3 posMouse;
+    public Camera m_camera;
+    public Transform dirDoClique;
+    private Vector3 posicaoMause;
+    private Vector3 localDoClique;
+    private Vector3 posMouse;
 
-	private Quaternion olharParaDir;
+    private Quaternion olharParaDir;
 
-	void Start(){
-		
-	}
-	// Update is called once per frame
-	void Update () {
-		posMouse = Input.mousePosition;
+    void Start()
+    {
+		gancho = Instantiate(gancho, new Vector3(0, 0, 0), Quaternion.identity);
+		dirDoClique = Instantiate(dirDoClique, new Vector3(0, 0, 0), Quaternion.identity) as Transform;
+        gancho.SetActive(false);
+        dirDoClique.gameObject.SetActive(false);
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        posMouse = Input.mousePosition;
 
-//		posMouse.z = RaycastHit
-//		posMouse = m_camera.ScreenToWorldPoint (posMouse);
+        //		posMouse.z = RaycastHit
+        //		posMouse = m_camera.ScreenToWorldPoint (posMouse);
 
 
-		// if (auxGancho == null) {
-		if (Input.GetMouseButtonDown (0)) {
-			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-			
-			if (Physics.Raycast (ray, out hit, Mathf.Infinity)) {
-				if (hit.collider != null) {
-					
-					posMouse.z = hit.collider.gameObject.transform.position.z;
-					posMouse = m_camera.ScreenToWorldPoint (posMouse);
-					
+        // if (auxGancho == null) {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-				}
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                if (hit.collider != null)
+                {
+
+                    posMouse.z = hit.collider.gameObject.transform.position.z;
+                    posMouse = m_camera.ScreenToWorldPoint(posMouse);
+
+
+                }
+
+                dirDoClique.gameObject.SetActive(true);
+                dirDoClique.position = posMouse;
+                dirDoClique.rotation = Quaternion.identity;
+                localDoClique = (dirDoClique.position - transform.position).normalized;
+                olharParaDir = Quaternion.LookRotation(localDoClique);
+
+            }
+            // Debug.Log(dirDoClique.gameObject.activeInHierarchy);
+            if (dirDoClique.gameObject.activeInHierarchy == true)
+            {
 				
-				auxDirDoClique = Instantiate (dirDoClique, posMouse, Quaternion.identity) as Transform;
-				localDoClique = (auxDirDoClique.transform.position - transform.position).normalized;
-				olharParaDir = Quaternion.LookRotation (localDoClique);			
-			}
-			if (auxDirDoClique != null){
-				auxGancho = Instantiate (gancho, transform.position, olharParaDir) as GameObject;
-				Destroy (auxDirDoClique.gameObject);
+                gancho.transform.position = transform.position;
+                gancho.transform.rotation = olharParaDir;
+				gancho.SetActive(true);
+				
+                dirDoClique.gameObject.SetActive(false);
 
-			}
-		}
-		if (Input.GetMouseButtonUp (0) && auxGancho.gameObject != null) {
-			Destroy (auxGancho.gameObject);
-			
-		}
-		posicaoMause = Input.mousePosition;
-		posicaoMause.z = Vector3.Distance(m_camera.transform.position,transform.position);
-		
-		target.transform.position = m_camera.ScreenToWorldPoint(posicaoMause);
-	}
+            }
+        }
+        // if (Input.GetMouseButtonUp (0) && gancho.gameObject.activeInHierarchy == true) {
+        // 	gancho.gameObject.SetActive(false);			
+        // }
+        posicaoMause = Input.mousePosition;
+        posicaoMause.z = Vector3.Distance(m_camera.transform.position, transform.position);
+
+        target.transform.position = m_camera.ScreenToWorldPoint(posicaoMause);
+    }
+	
 }
