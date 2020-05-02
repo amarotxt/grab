@@ -694,7 +694,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1050184658}
+      - m_Target: {fileID: 1666658011}
         m_MethodName: SairTutorial
         m_Mode: 1
         m_Arguments:
@@ -1892,7 +1892,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1050184658}
+      - m_Target: {fileID: 1666658011}
         m_MethodName: IniciarTutorial
         m_Mode: 1
         m_Arguments:
@@ -3228,7 +3228,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1050184658}
+      - m_Target: {fileID: 1666658011}
         m_MethodName: NextPainelTuroial
         m_Mode: 1
         m_Arguments:
@@ -4511,7 +4511,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1050184658}
+      - m_Target: {fileID: 1666658011}
         m_MethodName: BackPainelTuroial
         m_Mode: 1
         m_Arguments:
