@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Command {
 	protected float movimentSpeed = 10;
 	protected float movimentSpeedFoward = 3;
-	protected float movimentScaleSpeed = 5f;
+	protected float movimentScaleSpeed = 10f;
 	protected float forceJump = 20f;
 	protected float forceHighJump = 30f;
 

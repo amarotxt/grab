@@ -68,12 +68,22 @@ public class Gancho : MonoBehaviour {
 			}
 		}
 	}
+	void removerVelocidadeX(){
+		var playrigidbody = player.GetComponent<Rigidbody>();
+		Debug.Log("1"+playrigidbody.velocity);
+		Debug.Log("1"+Vector3.Project(
+                 playrigidbody.velocity,  new Vector3(0.5f, 0, 0)));
 
+		playrigidbody.velocity = playrigidbody.velocity - Vector3.Project(
+                 playrigidbody.velocity, Vector3.right);
+		Debug.Log("2"+playrigidbody.velocity);
+	}
 	public void RecolherGancho(){
 //		transform.position = Vector3.MoveTowards (transform.position, player.transform.position, retornarGancho*Time.deltaTime);
 		// Debug.Log(cordaColidiu);
 		cordaColidiu = false;
 		gameObject.transform.position = Vector3.zero;
+		removerVelocidadeX();
 		GetComponent<LineRenderer>().enabled = false;
 //		if (distanciaDoPlayer <= 2) {
 		gameObject.SetActive(false);

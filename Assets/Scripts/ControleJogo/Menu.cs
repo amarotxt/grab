@@ -8,7 +8,10 @@ public class Menu : MonoBehaviour
 {
 	public GameObject PainelMenu;
 	public GameObject PainelTutorial;
+	public GameObject PainelFases;
 	public Text distanciaPartida, recorde;
+	public int faseToPlay;
+
 	int parentPosition;
 	// Use this for initialization
 	void Start () {
@@ -23,9 +26,15 @@ public class Menu : MonoBehaviour
 
 	}
 
-	public void IniciarJogo()
+	void setAllPaineistoFalse(){
+		PainelFases.SetActive(false);
+		PainelMenu.SetActive(false);
+		PainelTutorial.SetActive(false);
+	}
+	public void IniciarFases()
     {
-		GameController.controller.IniciarJogo();
+		setAllPaineistoFalse();
+		PainelFases.SetActive(true);
 	}
     public void InfinitRun()
     {

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     public static GameController controller = null;
-    int parentPosition;
+  
     // int faseAtual = 2;
     // Use this for initialization
     void Awake()
@@ -20,8 +20,6 @@ public class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        parentPosition = 0;
-       
         // Debug.Log("antes inicio "+PlayerPrefs.GetInt("faseAtual"));
 
         if (PlayerPrefs.GetInt("faseAtual") <= 2)

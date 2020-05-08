@@ -13,12 +13,15 @@ public class Player : MonoBehaviour {
 	public Camera m_camera;
 	public Text distance;
 	public float distancePoint;
+ 	public int poolAmount = 2;
+    public GameObject pooledCristal;
+    List <GameObject> pooledCristals;
 	GameObject player;
-
 	Command MoveRight, MoveLeft, MoveUp, MoveDown, JumpLeft, JumpRight, JumpUp, JumpUpHigh, GoDown, GoFoward;
 	private bool highJump, scale, canJump, pendurado;
 	private BoxCollider box;
-	float points;
+	float distanciaControleVelocidade;
+	int pointsCristals;
 	private IEnumerator coroutine;
 	
 	void Start () {
@@ -26,11 +29,19 @@ public class Player : MonoBehaviour {
 			PlayerPrefs.SetInt ("tutorial", 1);	
 			SceneManager.LoadScene (2);
 		}
-
-		points = 0;
+ 		pooledCristals = new List<GameObject>();
+        
+		for (int i = 0; i < poolAmount; i++){
+            GameObject obj = (GameObject)Instantiate(pooledCristal);
+            obj.SetActive(false);
+            pooledCristals.Add(obj);
+        } 
+		
+		distanciaControleVelocidade = 0;
 		distancePoint = 0;
-		speedZ =0.1f;
-		aceleration = 1;
+		pointsCristals = 0;
+		// speedZ =0.1f;
+		// aceleration = 1;
 		scale = false;
 		highJump = false;
 		canJump = true;
@@ -49,8 +60,8 @@ public class Player : MonoBehaviour {
 	
 	void FixedUpdate () {
 		distancePoint = player.transform.position.z;
-		if (distancePoint-points > 100){
-			points = distancePoint;
+		if (distancePoint-distanciaControleVelocidade > 100){
+			distanciaControleVelocidade = distancePoint;
 			IncreaseSpeed();
 		}
 		distance.text = player.transform.position.z.ToString("0.00"); 
@@ -78,12 +89,14 @@ public class Player : MonoBehaviour {
 
 		if ((Input.GetKey (KeyCode.UpArrow) ||Input.GetKey(KeyCode.W)) && scale && !IsGrounded()) {
 			MoveUp.Execute (player);
+			GoFoward.Execute (player);
 		}
 
 		if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && !scale) {
 			GoDown.Execute (player);
 		} else if (Input.GetKey (KeyCode.DownArrow) || Input.GetKey (KeyCode.S) && scale) {
 			MoveDown.Execute (player);
+			GoFoward.Execute (player);
 		}
 
 		gameObject.transform.Translate (0,0,speedZ);
@@ -122,6 +135,16 @@ public class Player : MonoBehaviour {
 			var controller = GameObject.FindWithTag("controller").GetComponent<Controller1>();
 			controller.checkMission();
 		}
+		if (other.gameObject.CompareTag ("cristalDrop")) {
+			pointsCristals += 1;
+			GameObject cristal = GetPooledCristals();
+			cristal.transform.position = other.gameObject.transform.position;
+			cristal.SetActive(true);
+			Debug.Log(pointsCristals);
+			other.gameObject.SetActive(false);
+		}
+		
+		
 	}
 
 	void OnCollisionEnter (Collision collider){
@@ -148,6 +171,20 @@ public class Player : MonoBehaviour {
 
 	}
 
+	public GameObject GetPooledCristals(){
+        for (int i = 0; i < poolAmount; i++ ){
+            if (!pooledCristals[i].activeInHierarchy){
+                return pooledCristals[i];
+            }
+        }
+        if (true){
+            GameObject obj = (GameObject)Instantiate(pooledCristal);
+            pooledCristals.Add(obj);
+            poolAmount = pooledCristals.Count;
+            return obj;
+        }
+        return null;
+    }
 	void OnCollisionExit (Collision collider){
 		if (collider.gameObject.CompareTag ("notJump")) {
 			canJump = true;
