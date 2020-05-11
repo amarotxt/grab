@@ -9,6 +9,8 @@ public class Menu : MonoBehaviour
 	public GameObject PainelMenu;
 	public GameObject PainelTutorial;
 	public GameObject PainelFases;
+	public GameObject Fases;
+	public  Animator MenuAnimator;
 	public Text distanciaPartida, recorde;
 	public int faseToPlay;
 
@@ -36,10 +38,35 @@ public class Menu : MonoBehaviour
 		setAllPaineistoFalse();
 		PainelFases.SetActive(true);
 	}
+	public void Iniciar()
+    {
+		GameController.controller.IniciarFase(faseToPlay);
+	
+	}
+	void DesativarTodasFasesView(){
+     	foreach (Transform child in Fases.transform){
+			child.gameObject.SetActive(false);
+		 }
+	}
+	void ativarFase(string name){
+		foreach (Transform child in Fases.transform){
+			if (child.name == name)
+			child.gameObject.SetActive(true);
+		 }
+	}
+	public void SetarProximaFase(int numfase)
+    {
+		faseToPlay=numfase;
+		MenuAnimator.SetTrigger("OtherAnimation");
+		MenuAnimator.SetInteger("AnimationFase",numfase);
+		DesativarTodasFasesView();
+		// O numero da lista de fases no build da unit as fases estao com a ordem 1 a frente
+		ativarFase("fase"+(faseToPlay-1));
+		
+	}
     public void InfinitRun()
     {
         GameController.controller.InfinitRun();
-
     }
 
 	public void NextPainelTuroial(){

@@ -36,6 +36,10 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(PlayerPrefs.GetInt("faseAtual"));
 
     }
+    public void IniciarFase(int fase){
+        SceneManager.LoadScene(fase);
+
+    } 
     public void InfinitRun()
     {
         SceneManager.LoadScene(1);
